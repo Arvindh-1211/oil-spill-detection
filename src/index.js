@@ -1,10 +1,17 @@
 import './index.css';
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+
 import React from 'react';
 import reportWebVitals from './reportWebVitals';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Provider } from 'react-redux';
+import { PersistGate } from "redux-persist/integration/react";
+
+import App from './App';
 import routes from './routes/routes';
+import { store, persistor } from './store/store';
+
 
 const router = createBrowserRouter([
 	{
@@ -17,9 +24,13 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 	<React.StrictMode>
-		<RouterProvider router={router} >
-			<App />
-		</RouterProvider>
+			<Provider store={store}>
+				<PersistGate persistor={persistor}>
+					<RouterProvider router={router} >
+						<App />
+					</RouterProvider>
+				</PersistGate>
+			</Provider>
 	</React.StrictMode>
 );
 
