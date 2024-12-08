@@ -6,7 +6,7 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import Grow from '@mui/material/Grow';
 
 
-function SatelliteDataPage() {
+function OilSpillPage() {
     const dispatch = useDispatch();
 
     const [AISdata, setAISData] = useState([]);
@@ -101,4 +101,4 @@ function SatelliteDataPage() {
     )
 }
 
-export default SatelliteDataPage
+export default OilSpillPage

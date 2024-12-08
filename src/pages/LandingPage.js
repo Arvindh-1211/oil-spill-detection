@@ -15,6 +15,9 @@ function LandingPage() {
             case 1:
                 navigate('/satellite_data')
                 break;
+            case 2:
+                navigate('/oil_spill')
+                break;
             default:
                 navigate('/')
         }
@@ -22,13 +25,10 @@ function LandingPage() {
 
     return (
         <div>
-            {/* <div className='navbar'>
-                <NavLink to='/AISdata'><div>AIS Data</div></NavLink>
-                <NavLink to='/satellite_data'><div>Satellite</div></NavLink>
-            </div> */}
             <Tabs sx={{ width: '30vw' }} value={value} onChange={handleChange} >
-                <Tab sx={{ width: '50%' }} label="AIS Data" />
-                <Tab sx={{ width: '50%' }} label="Satellite" />
+                <Tab sx={{ width: '33%' }} label="AIS Data" />
+                <Tab sx={{ width: '33%' }} label="Satellite" />
+                <Tab sx={{ width: '33%' }} label="Oil Spill" />
             </Tabs>
             <Outlet />
         </div>

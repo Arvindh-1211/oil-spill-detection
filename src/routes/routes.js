@@ -2,6 +2,7 @@ import { Navigate } from "react-router-dom";
 import AISDataPage from "../pages/AISDataPage";
 import LandingPage from "../pages/LandingPage";
 import SatelliteDataPage from "../pages/SatelliteDataPage";
+import OilSpillPage from "../pages/OilSpillPage";
 
 const routes = [
     {
@@ -11,6 +12,10 @@ const routes = [
             {
                 path: '/',
                 element: <Navigate to='/AISdata' />
+            },
+            {
+                path: '/oil_spill',
+                element: <OilSpillPage />
             },
             {
                 path: '/AISdata',

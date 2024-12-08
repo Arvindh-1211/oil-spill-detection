@@ -2,6 +2,10 @@
   display: flex;
 }
 
+img {
+  margin: 2px;
+}
+
 .data-container {
   width: 30vw;
   height: calc(100vh - 50px);
