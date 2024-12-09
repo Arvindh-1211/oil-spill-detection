@@ -19,7 +19,7 @@ export default function Gmap() {
     }, [lat, lng])
 
     return (
-        <div style={{ height: '100vh', width: '100%' }}>
+        <div style={{ height: '100vh', width: '100vw' }}>
             <APIProvider apiKey=''>
                 <Map
                     defaultZoom={5}
@@ -30,7 +30,7 @@ export default function Gmap() {
                     mapId='da37f3254c6a6d1c'
                 >
                     <AdvancedMarker
-                        position={{ lat: lat, lng: lng }}
+                        position={{ lat: lat, lng: lng+5 }}
                     >
                         <Pin background={'#f00'} glyphColor={'#000'} borderColor={'#000'} />
                     </AdvancedMarker>

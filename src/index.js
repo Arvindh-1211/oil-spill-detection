@@ -1,5 +1,5 @@
 import './index.css';
-import "primereact/resources/themes/lara-light-cyan/theme.css";
+// import "primereact/resources/themes/lara-light-cyan/theme.css";
 
 import React from 'react';
 import reportWebVitals from './reportWebVitals';
@@ -7,6 +7,8 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/integration/react";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { cyan } from '@mui/material/colors'
 
 import App from './App';
 import routes from './routes/routes';
@@ -21,9 +23,19 @@ const router = createBrowserRouter([
 	},
 ]);
 
+const theme = createTheme({
+	palette: {
+		secondary: {
+            main: '#fff',
+        },
+	},
+});
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 	<React.StrictMode>
+		<ThemeProvider theme={theme}>
 			<Provider store={store}>
 				<PersistGate persistor={persistor}>
 					<RouterProvider router={router} >
@@ -31,6 +43,7 @@ root.render(
 					</RouterProvider>
 				</PersistGate>
 			</Provider>
+		</ThemeProvider>
 	</React.StrictMode>
 );
 

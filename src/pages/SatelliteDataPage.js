@@ -14,7 +14,6 @@ function SatelliteDataPage() {
 
     useEffect(() => {
         // Fetch the CSV file from the public folder
-        // fetch("/ais.csv")  // Path to the CSV file in the public folder
         fetch("http://localhost:8000/ais_data")  // Path to the CSV file in the public folder
             .then((response) => response.text())  // Read response as text
             .then((csvText) => {
@@ -38,66 +37,71 @@ function SatelliteDataPage() {
         <div className='data-container'>
             {!spillData &&
                 AISdata.map((item, index) => (
-                    <Grow in={true}>
-                        <div
-                            className="AISdata-container"
-                            key={index}
-                            onClick={() => {
-                                dispatch(setLocation({ lat: Number(item.LAT_x), lng: Number(item.LON_x) }))
-                                setSpillData(item)
-                            }}
-                        >
-                            <div className="AISdata-date">
-                                <div className="time">
-                                    {new Date(item.BaseDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
+                    item.LAT_x && item.LON_x ?
+                        <Grow in={true} timeout={500} style={{ transitionDelay: `${index * 50}ms` }}>
+                            <div
+                                className="AISdata-container"
+                                key={index}
+                                onClick={() => {
+                                    dispatch(setLocation({ lat: Number(item.LAT_x), lng: Number(item.LON_x) }))
+                                    setSpillData(item)
+                                }}
+                            >
+                                <div className="AISdata-date">
+                                    <div className="time">
+                                        {new Date(item.BaseDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
+                                    </div>
+                                    <div className="date">
+                                        {new Date(item.BaseDateTime).toLocaleDateString([], { month: 'short', day: 'numeric' })}
+                                    </div>
                                 </div>
-                                <div className="date">
-                                    {new Date(item.BaseDateTime).toLocaleDateString([], { month: 'short', day: 'numeric' })}
+                                <div className="AISdata-info">
+                                    <div className="vessel-name">{item.VesselName_x}</div>
+                                    <div className="vessel-location">
+                                        <span className="value">Lat: {item.LAT_x}</span>
+                                        <span className="value">Lon: {item.LON_x}</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="AISdata-info">
-                                <div className="vessel-name">{item.VesselName_x}</div>
-                                <div className="vessel-location">
-                                    <span>Lat: {item.LAT_x}</span>
-                                    <span>Lon: {item.LON_x}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </Grow>
+                        </Grow>
+                        :
+                        <></>
                 ))
             }
-            {spillData &&
+            {
+                spillData &&
                 <div className="spill-data">
                     <div className="header">
-                        <h2>{spillData.VesselName_x}</h2>
+                        <p>{spillData.VesselName_x}</p>
                         <span onClick={() => { setSpillData(null) }}><IoCloseCircleOutline /></span>
                     </div>
                     <div className="info">
                         <img src={`http://localhost:8000/image?path=${spillData.extracted_path.replace('G:', 'D:\\VSCode')}`} width='100%' height='auto' alt="Image not available" />
                         {
-                            Object.entries(spillData).map(([key, value]) => (
+                            Object.entries(spillData).map(([key, value], index) => (
                                 ['extracted_path', 'path'].includes(key) || !value ?
                                     <></>
                                     :
                                     key === 'BaseDateTime' ?
-                                        <div className="datetime" key={key}>
-                                            <div>
-                                                <span className="label">Time</span><span className="value">{new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}</span>
-                                            </div>
-                                            <div>
-                                                <span className="label">Date</span><span className="value">{new Date(value).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-                                            </div>
+                                        <div>
+                                            <span className="label"><p>Time</p></span><span className="value">
+                                                <p>
+                                                    {new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}
+                                                    {' - '}
+                                                    {new Date(value).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}
+                                                </p>
+                                            </span>
                                         </div>
                                         :
                                         <div key={key}>
-                                            <span className="label">{key}</span><span className="value">{value}</span>
+                                            <span className="label"><p>{key}</p></span><span className="value"><p>{value}</p></span>
                                         </div>
                             ))
                         }
                     </div>
                 </div>
             }
-        </div>
+        </div >
     )
 }
 

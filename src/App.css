@@ -8,54 +8,52 @@ img {
 
 .data-container {
   width: 30vw;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 88px);
   overflow: auto;
   scrollbar-width: none;
-  background-color: rgb(230, 228, 228);
 }
 
 .map-container {
-  height: 100vh;
-  width: 70vw;
+  position: absolute;
 }
 
 .navbar{
-  /* padding: 5px; */
-  height: 45px;
-  font-size: 26px;
-  font-weight: 400;
-  display: flex;
-  justify-content: space-around;
+  border-radius: 10px 10px 0 0;
+  backdrop-filter: blur(15px);
 }
 
-.navbar a {
-  text-decoration: none;
-  color: black;
-}
-
-.navbar .active {
-  border-bottom: 2px solid blueviolet;  
-}
-
-.AISdata-container{
-  background-color: #fff;
+.outlet {
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(15px);
+  position: relative;
+  z-index: 1;
+  margin: 16px;
+  margin-bottom: 22px;
+}
+
+.AISdata-container {
+  background-color: #e0f0ff;
+  border-radius: 10px;
+  backdrop-filter: blur(15px);
+  color: #3a3a3a;
   margin: 10px;
   padding: 5px;
   display: flex;
+  transform-origin: center;
 }
 
 .AISdata-container:hover {
-  box-shadow: 0 0 5px 1px #0005;
+  cursor: pointer;
+  transform: scale(1.2);
+  transition: transform 0.3s ease;
 }
 
-.AISdata-container:active {
-  box-shadow: none;
-}
-
-.AISdata-date{
-  background-color: #46757f;
-  color: #f1f1f1;
+.AISdata-date {
+  background-color: #0e79dcde;
+  color: white;
+  font-weight: 600;
   border-radius: 7px;
   padding: 5px;
   min-height: 70px;
@@ -66,64 +64,99 @@ img {
   justify-content: space-around;
 }
 
-.AISdata-info{
+.AISdata-info {
   padding: 5px;
   padding-left: 10px;
 }
 
-.AISdata-info > .vessel-name {
+.AISdata-info>.vessel-name {
   font-size: 18px;
   font-weight: 500;
+  margin-bottom: 3px;
 }
 
-.AISdata-info > .vessel-location > span {
+.AISdata-info>.vessel-location>span {
   margin: 5px;
   margin-left: 0;
   margin-right: 20px;
 }
 
-.spill-data{
+.spill-data {
   background-color: #fff;
-  border-radius: 10px;
+  height: calc(100vh - 88px - 32px);
+  overflow: auto;
+  scrollbar-width: none;
+  border-radius: 6px;
   margin: 8px;
   padding: 7px;
 }
 
-.header{
-  background-color: #46757f;
-  color: #fff;
+.header {
+  background-color: #e0f0ff;
+  color: #3a3a3a;
   border-radius: 7px;
   display: flex;
-  /* text-align: center; */
   padding: 0 20px;
   align-items: center;
   justify-content: space-between;
 }
 
-/* .header > h2 {
-  width: 80%;
-} */
-
-.header > span {
-  /* width: 20%; */
-  font-size: 30px;
+.header > p{
+  padding: 14px 0;
+  font-size: 22px;
+  font-weight: 500;
 }
 
-.info > div , .datetime > div{
+p {
+  padding: 2px;
+  margin: 0;
+  width: 0;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 3s steps(50, end) forwards;
+}
+
+@keyframes typing { 
+  0% { 
+      width: 0% 
+  } 
+  100% { 
+      width: 100% 
+  } 
+}
+
+.header>span {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.info>div{
   display: flex;
 }
 
-.datetime{
-  display: block !important;
-}
-
-.info  .label, .info .value {
+.info .label,
+.info .value {
   width: 50%;
   margin: 2px;
   margin-left: 15px;
+  font-weight: 500;
+}
+
+.info > div:nth-child(even) {
+    background-color: #d4d4d46b;
+}
+
+.info >div:nth-child(odd) {
+    background-color: #ffffff;
 }
 
 .info .value {
   font-size: 14px;
-  font-weight: 300 ;
+  color: #3a3a3ae5;
+  font-weight: 500;
+}
+
+.info .label{
+  color: #3a3a3a;
 }
