@@ -6,13 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from 'react-redux';
-import { PersistGate } from "redux-persist/integration/react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { cyan } from '@mui/material/colors'
 
 import App from './App';
 import routes from './routes/routes';
-import { store, persistor } from './store/store';
+import { store } from './store/store';
 
 
 const router = createBrowserRouter([
@@ -37,11 +35,9 @@ root.render(
 	<React.StrictMode>
 		<ThemeProvider theme={theme}>
 			<Provider store={store}>
-				<PersistGate persistor={persistor}>
 					<RouterProvider router={router} >
 						<App />
 					</RouterProvider>
-				</PersistGate>
 			</Provider>
 		</ThemeProvider>
 	</React.StrictMode>
