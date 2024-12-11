@@ -76,7 +76,12 @@ function SatelliteDataPage() {
                         <span onClick={() => { setSpillData(null) }}><IoCloseCircleOutline /></span>
                     </div>
                     <div className="info">
-                        <img src={`http://localhost:8000/image?path=${spillData.extracted_path.replace('G:', 'D:\\VSCode')}`} width='100%' height='auto' alt="Image not available" />
+                    <img
+    src={`http://localhost:8000/image?path=${spillData.extracted_path}`}
+    width="100%"
+    height="auto"
+    alt="Image not available"
+/>
                         {
                             Object.entries(spillData).map(([key, value], index) => (
                                 ['extracted_path', 'path'].includes(key) || !value ?
