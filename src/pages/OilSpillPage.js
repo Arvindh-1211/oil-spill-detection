@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Papa from "papaparse";
 import { useDispatch } from 'react-redux';
-import { setLocation } from '../store/locationSlice';
+import { setLocation, setNearbyShips } from '../store/locationSlice';
 import { IoCloseCircleOutline } from "react-icons/io5";
 import Grow from '@mui/material/Grow';
 
@@ -32,6 +32,37 @@ function OilSpillPage() {
             });
     }, []);
 
+    const handleClick = (item) => {
+        dispatch(setLocation({ lat: Number(item.LAT_x), lng: Number(item.LON_x) }))
+        setSpillData(item)
+
+        // Path for nearby ships
+        // const file_path = item.nearbyShipsFilePath
+        const file_path = "D:\\VSCode\\OilSpill\\nearby_ships_220634000.csv"
+        fetch(`http://localhost:8000/nearby_ships?file_path=${file_path}`)
+            .then((response) => response.text())  // Read response as text
+            .then((csvText) => {
+                // Parse the CSV text
+                Papa.parse(csvText, {
+                    header: true,  // Set to true if the first row contains headers
+                    complete: (result) => {
+                        const parsedNearbyShips = result.data.map((ship) => ({
+                            lat: Number(ship.LAT),
+                            lon: Number(ship.LON)
+                        }));
+
+                        dispatch(setNearbyShips(parsedNearbyShips));
+                    },
+                    error: (error) => {
+                        console.error("Error parsing CSV:", error);
+                    }
+                });
+            })
+            .catch((error) => {
+                console.error("Error fetching CSV:", error);
+            });
+    }
+
     return (
         <div className='data-container'>
             {!spillData &&
@@ -40,10 +71,8 @@ function OilSpillPage() {
                         <Grow in={true} timeout={500} style={{ transitionDelay: `${index * 50}ms` }} key={index}>
                             <div
                                 className="AISdata-container"
-                                onClick={() => {
-                                    dispatch(setLocation({ lat: Number(item.LAT_x), lng: Number(item.LON_x) }));
-                                    setSpillData(item);
-                                }}
+                                key={index}
+                                onClick={() => { handleClick(item) }}
                             >
                                 <div className="AISdata-date">
                                     <div className="time">
