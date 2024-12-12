@@ -30,15 +30,16 @@ export default function Gmap() {
                     <AdvancedMarker position={{ lat: lat, lng: lng }}>
                         <Pin background={'#f00'} glyphColor={'#000'} borderColor={'#000'} />
                     </AdvancedMarker>
-                    
-                    {nearbyShips.map((ship, index) => (
-                        <AdvancedMarker 
-                            key={index} 
-                            position={{ lat: parseFloat(ship.LAT), lng: parseFloat(ship.LON) }}
-                        >
-                            <Pin background={'#00f'} glyphColor={'#fff'} borderColor={'#000'} />
-                        </AdvancedMarker>
-                    ))}
+
+                    {nearbyShips &&
+                        nearbyShips.map((ship, index) => (
+                            <AdvancedMarker
+                                key={index}
+                                position={{ lat: parseFloat(ship.lat), lng: parseFloat(ship.lon) }}
+                            >
+                                <Pin background={'#00f'} glyphColor={'#000'} borderColor={'#000'} />
+                            </AdvancedMarker>
+                        ))}
                 </Map>
             </APIProvider>
         </div>

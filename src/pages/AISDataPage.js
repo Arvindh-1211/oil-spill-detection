@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Papa from "papaparse"
-import { useDispatch } from 'react-redux';
-import { setLocation } from '../store/locationSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLocation, setNearbyShips } from '../store/locationSlice';
 import { IoCloseCircleOutline } from "react-icons/io5";
 import Grow from '@mui/material/Grow';
 
 
 function AISDataPage() {
     const dispatch = useDispatch();
+    const { nearbyShips } = useSelector((state) => state.location)
 
     const [AISdata, setAISData] = useState([]);
     const [spillData, setSpillData] = useState(null);
+    const [nearbyShipData, setNearbyShipData] = useState([]);
+    const [nearbyShipLocation, setNearbyShipLocation] = useState([]);
 
     useEffect(() => {
         // Fetch the CSV file from the public folder
@@ -33,6 +36,37 @@ function AISDataPage() {
             });
     }, []);
 
+    const handleClick = (item) => {
+        dispatch(setLocation({ lat: Number(item.LAT_x), lng: Number(item.LON_x) }))
+        setSpillData(item)
+
+        // Path for nearby ships
+        // const file_path = item.nearbyShipsFilePath
+        const file_path = "D:\\VSCode\\OilSpill\\nearby_ships_220634000.csv"
+        fetch(`http://localhost:8000/nearby_ships?file_path=${file_path}`)
+            .then((response) => response.text())  // Read response as text
+            .then((csvText) => {
+                // Parse the CSV text
+                Papa.parse(csvText, {
+                    header: true,  // Set to true if the first row contains headers
+                    complete: (result) => {
+                        const parsedNearbyShips = result.data.map((ship) => ({
+                            lat: Number(ship.LAT),
+                            lon: Number(ship.LON)
+                        }));
+
+                        dispatch(setNearbyShips(parsedNearbyShips));
+                    },
+                    error: (error) => {
+                        console.error("Error parsing CSV:", error);
+                    }
+                });
+            })
+            .catch((error) => {
+                console.error("Error fetching CSV:", error);
+            });
+    }
+
     return (
         <div className='data-container'>
             {!spillData &&
@@ -42,10 +76,7 @@ function AISDataPage() {
                             <div
                                 className="AISdata-container"
                                 key={index}
-                                onClick={() => {
-                                    dispatch(setLocation({ lat: Number(item.LAT_x), lng: Number(item.LON_x) }))
-                                    setSpillData(item)
-                                }}
+                                onClick={() => { handleClick(item) }}
                             >
                                 <div className="AISdata-date">
                                     <div className="time">

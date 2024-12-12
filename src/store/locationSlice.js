@@ -13,7 +13,7 @@ const locationSlice = createSlice({
             state.lng = action.payload.lng
         },
         setNearbyShips: (state, action) => {
-            state.nearbyShips = action.payload;
+            state.nearbyShips = action.payload
         }
     }
 })
